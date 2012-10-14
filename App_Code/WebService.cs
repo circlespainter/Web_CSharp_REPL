@@ -6,13 +6,19 @@ using System.Web.Services;
 using O2.DotNetWrappers.ExtensionMethods;
 using System.Web.Script.Serialization;
 using System.Web.Script.Services;
+using O2.DotNetWrappers.DotNet;
 
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [System.Web.Script.Services.ScriptService]
-public class WebService : System.Web.Services.WebService {
+public class WebService : System.Web.Services.WebService 
+{
 
 	public static object saving = new Object();
+	static WebService()
+	{
+		CompileEngine.DefaultReferencedAssemblies.add_If_Not_There("O2_FluentSharp_BCL.dll");  //also add support for this one
+	}
 
     public WebService () 
 	{
@@ -55,7 +61,7 @@ public class WebService : System.Web.Services.WebService {
 	}
 
 	[WebMethod(EnableSession = true)]
-	[ScriptMethod(UseHttpGet = true)]
+	[ScriptMethod(UseHttpGet = true)] 
 	public List<LogEntry> CurrentLogFile_Contents()
 	{
 		return CurrentLogFile_Path().load<List<LogEntry>>();
@@ -70,8 +76,8 @@ public class WebService : System.Web.Services.WebService {
 				IP = request.UserHostAddress.str(),
 				HostName = request.UserHostAddress,
 				UserAgent = request.UserAgent,
-				Cookies = request.Cookies.toList().asString(),
-				Headers = request.Headers.toList().asString(),
+				Cookies = request.Cookies.Keys.toList().Select((key) => "{0} : {1}".format(key,  request.Cookies[key.str()].Value)).asString(),
+				Headers = request.Headers.Keys.toList().Select((key) => "{0} : {1}".format(key, request.Headers[key.str()])).asString(),
 				Refferer = request.UrlReferrer.str(),
 				RequestedAt = DateTime.Now.ToLongTimeString(),
 				Snippet = snippet
