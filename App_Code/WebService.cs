@@ -98,6 +98,25 @@ public class WebService : System.Web.Services.WebService
 		return logEntry;
 	}
 
+	[WebMethod(EnableSession = true)]
+	public int SaveSnippet(string snippet)
+	{
+		"[SaveSnippet] saving snippet: {0}".info(snippet);
+		var targetDir = AppDomain.CurrentDomain.BaseDirectory.pathCombine("User_Snippets");
+		var id = targetDir.files().size() + 1;
+		var targetFile  = targetDir.pathCombine("{0}.html".format(id));
+		if (targetFile.fileExists())
+			"[SaveSnippet] target ID already existed: {0}".format(targetFile);
+		else
+		{
+			snippet.saveAs(targetFile);
+			"[SaveSnippet] snippet saved to: {0}".format(targetFile);
+			return id;
+		}
+		return -1;				
+	}
+	
+
 	[WebMethod(EnableSession = true)]	
 	public string GetO2Logs()
 	{		
