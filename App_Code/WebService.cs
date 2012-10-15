@@ -20,7 +20,7 @@ public class WebService : System.Web.Services.WebService
 	public static object saving = new Object();
 	static WebService()
 	{
-		CompileEngine.DefaultReferencedAssemblies.add_If_Not_There("O2_FluentSharp_BCL.dll");  //also add support for this one
+		//CompileEngine.DefaultReferencedAssemblies.add_If_Not_There("O2_FluentSharp_BCL.dll");  //also add support for this one
 	}
 
     public WebService () 
