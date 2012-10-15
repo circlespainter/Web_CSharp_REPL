@@ -10,6 +10,7 @@ using O2.DotNetWrappers.DotNet;
 using O2.Kernel;
 using O2.Kernel.InterfacesBaseImpl;
 using System.Text;
+using O2.DotNetWrappers.Network;
 
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
@@ -111,6 +112,9 @@ public class WebService : System.Web.Services.WebService
 		{
 			snippet.saveAs(targetFile);
 			"[SaveSnippet] snippet saved to: {0}".format(targetFile);
+
+			EmailSnippetToO2Support("Script saved on C# WEB REPL with id: " + id, snippet);
+			
 			return id;
 		}
 		return -1;				
@@ -134,4 +138,13 @@ public class WebService : System.Web.Services.WebService
 		return logData.str();
     }
 
+	
+	[WebMethod(EnableSession = true)]
+	public void EmailSnippetToO2Support(string subject, string snippet)
+	{		
+		var text = LogRequest(snippet).serialize(false);
+		Mail.sendMail(PublicDI.sEmailHost, "support@o2platform.com", "support@o2platform.com", "",
+									  "[WebRepl]" + subject,
+									   text, new List<string>(), false);
+	}
 }

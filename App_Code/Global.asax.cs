@@ -24,8 +24,7 @@ namespace O2.WebREPL
 		protected void Session_Start					(object sender, EventArgs e)		{ }	
 
 		protected void Application_BeginRequest			(object sender, EventArgs e)		
-        {
-			"[Application_BeginRequest]".info();
+        {			
 			var rawRequest = Request.Url.AbsolutePath.removeFirstChar();
 			if (rawRequest.isInt())
 				Server.Transfer("/Pages/Repl.html");
