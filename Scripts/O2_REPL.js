@@ -4,7 +4,7 @@ O2Platform.JS = {};
 O2Platform.JS.defaultCallback = function(data) { alert(data.d) };
 O2Platform.JS.defaultErrorHandler = function(data) { alert(data) };
 
-O2Platform.JS.WebServices = 'CSharp_REPL.asmx/';
+O2Platform.JS.WebServices = '/CSharp_REPL.asmx/';
 
 O2Platform.JS.invokeWebService = function(method, params, handleData, handleError)
 	{					
@@ -46,4 +46,15 @@ O2Platform.JS.executeCSharpCode = function(code, handleData, handleError)
 	{
 		var params = { snippet : code };
 		O2Platform.JS.invokeWebService("ExecuteCSharpCode",JSON.stringify(params), handleData,handleError)
+	}
+
+O2Platform.JS.getO2Logs = function(handleData, handleError)
+	{
+		var params = {};
+		O2Platform.JS.invokeWebService("GetO2Logs",JSON.stringify(params), handleData, handleError)
+	}
+O2Platform.JS.currentLogFile_Contents = function(handleData, handleError)
+	{
+		var params = {};
+		O2Platform.JS.invokeWebService("CurrentLogFile_Contents",JSON.stringify(params), handleData, handleError)
 	}

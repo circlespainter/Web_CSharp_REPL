@@ -7,6 +7,9 @@ using O2.DotNetWrappers.ExtensionMethods;
 using System.Web.Script.Serialization;
 using System.Web.Script.Services;
 using O2.DotNetWrappers.DotNet;
+using O2.Kernel;
+using O2.Kernel.InterfacesBaseImpl;
+using System.Text;
 
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
@@ -61,7 +64,7 @@ public class WebService : System.Web.Services.WebService
 	}
 
 	[WebMethod(EnableSession = true)]
-	[ScriptMethod(UseHttpGet = true)] 
+	//[ScriptMethod(UseHttpGet = true)] 
 	public List<LogEntry> CurrentLogFile_Contents()
 	{
 		return CurrentLogFile_Path().load<List<LogEntry>>();
@@ -94,4 +97,22 @@ public class WebService : System.Web.Services.WebService
 		}
 		return logEntry;
 	}
+
+	[WebMethod(EnableSession = true)]	
+	public string GetO2Logs()
+	{		
+		var logs = (PublicDI.log.LogRedirectionTarget as MemoryLogger).LogData.str();
+		var logData = new StringBuilder();
+		foreach (var line in logs.lines())
+		{
+			var color = "black";
+			if (line.starts("DEBUG:"))
+				color = "green";
+			else if (line.starts("ERROR:"))
+				color = "red";
+			logData.Append("<span style='color:{0}'>{1}<span><br/>".format(color, Server.HtmlEncode(line)));
+		}
+		return logData.str();
+    }
+
 }
