@@ -66,9 +66,14 @@
 								executeCode();
 							})
 			}
+		var saveCode = function()
+			{
+				O2Platform.JS.saveSnippet(Editor.getValue(), function(id) { location = id});
+			}
 		$(function()
 			{
 				$("#execute").click(executeCode)
+				$("#save").click(saveCode)
 				$('div.alert-message.info').click(executeCode);
 				loadCodeFromLocationID()
 				//executeCode();
@@ -112,7 +117,8 @@
 		</textarea>
 		
         <div class="buttons">
-          <button data-action="lint" class="btn primary" id="execute">Execute</button>
+			<button data-action="lint" class="btn info" id="save">Save</button>
+			<button data-action="lint" class="btn danger" id="execute">Execute</button>
         </div>
 
 		<br />

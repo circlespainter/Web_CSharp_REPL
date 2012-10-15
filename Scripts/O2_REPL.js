@@ -48,6 +48,12 @@ O2Platform.JS.executeCSharpCode = function(code, handleData, handleError)
 		O2Platform.JS.invokeWebService("ExecuteCSharpCode",JSON.stringify(params), handleData,handleError)
 	}
 
+O2Platform.JS.saveSnippet = function(code, handleData, handleError)
+	{
+		var params = { snippet : code };
+		O2Platform.JS.invokeWebService("SaveSnippet",JSON.stringify(params), handleData,handleError)
+	}
+
 O2Platform.JS.getO2Logs = function(handleData, handleError)
 	{
 		var params = {};
@@ -58,3 +64,4 @@ O2Platform.JS.currentLogFile_Contents = function(handleData, handleError)
 		var params = {};
 		O2Platform.JS.invokeWebService("CurrentLogFile_Contents",JSON.stringify(params), handleData, handleError)
 	}
+
