@@ -1,5 +1,6 @@
 Web Based C# REPL environment based on O2Platform's FluentSharp
 
+Install instructions here: https://github.com/o2platform/Web_CSharp_REPL/issues/2
 
 
 Credits: 
